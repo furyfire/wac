@@ -288,7 +288,7 @@ char _value_str[256];
 char *value_repr(StackValue *v) {
     switch (v->value_type) {
     case I32: snprintf(_value_str, 255, "0x%x:i32",  v->value.uint32); break;
-    case I64: snprintf(_value_str, 255, "0x%llx:i64", v->value.uint64); break;
+    case I64: snprintf(_value_str, 255, "0x%I64u:i64", v->value.uint64); break;
     case F32: snprintf(_value_str, 255, "%.7g:f32",  v->value.f32);    break;
     case F64: snprintf(_value_str, 255, "%.7g:f64",  v->value.f64);    break;
     }

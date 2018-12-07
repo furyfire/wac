@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#include <sys/mman.h>
+#include <mman.h>
 #include <sys/stat.h>
 #include <dlfcn.h>
 

@@ -45,7 +45,7 @@ void thunk_out(Module *m, uint32_t fidx) {
     case 0x800444444 : THUNK_OUT_6(m, func, 0, F,F,F,F,F,F); break;
     case 0x8103      : THUNK_OUT_1(m, func, i, f);           break;
     case 0x8404      : THUNK_OUT_1(m, func, F, F);           break;
-    default: FATAL("unsupported thunk_out mask 0x%llx\n", type->mask);
+    default: FATAL("unsupported thunk_out mask 0x%I64u\n", type->mask);
     }
 
     if (TRACE) {
@@ -101,7 +101,7 @@ void (*setup_thunk_in(uint32_t fidx))() {
     case 0x800      : f = (void (*)(void)) thunk_in_0_0; break;
     case 0x8101     : f = (void (*)(void)) thunk_in_i_i; break;
     case 0x80011    : f = (void (*)(void)) thunk_in_0_ii; break;
-    default: FATAL("unsupported thunk_in mask 0x%llx\n", type->mask);
+    default: FATAL("unsupported thunk_in mask 0x%I64u\n", type->mask);
     }
 
     return f;

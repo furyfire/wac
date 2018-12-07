@@ -10,15 +10,17 @@ USE_READLINE ?=
 USE_SDL ?= 1
 
 #CFLAGS ?= -O2 -Wall -Werror -Wextra -MMD -MP
-CFLAGS ?= -O2 -Wall -Werror -MMD -MP
+LIBS_A = "../wineditline/build/src" "../mman-win32" "../dlfcn-win32"
+LIBS_INCLUDE = "../wineditline/src"  "../mman-win32" "../dlfcn-win32"
+CFLAGS ?= -O2 -Wall -Werror -MMD -MP $(foreach l,$(LIBS_INCLUDE),-I$(l))
 
-EXTRA_WAC_LIBS ?=
+EXTRA_WAC_LIBS ?= mman psapi
 EXTRA_WACE_LIBS ?=
 
 
 ##########################################################
 
-CC = gcc $(CFLAGS) -std=gnu99 -m32 -g
+CC = gcc $(CFLAGS) -std=gnu99 -m32 -g 
 EMCC = emcc $(CFLAGS) -s WASM=1 -s SIDE_MODULE=1 -s LEGALIZE_JS_FFI=0
 
 WA_DEPS = util.o thunk.o
@@ -70,7 +72,7 @@ wace: wa.a wace.o
 #
 ifeq (libc,$(PLATFORM)) # libc Platform
 wac:
-	$(CC) -rdynamic -Wl,--no-as-needed -o $@ \
+	$(CC) $(foreach l,$(LIBS_A),-L$(l)) -Wl,--no-as-needed -o $@ \
 	    -Wl,--start-group $^ -Wl,--end-group $(foreach l,$(WAC_LIBS),-l$(l))
 wace: wace_emscripten.o
 	$(CC) -rdynamic -Wl,--no-as-needed -o $@ \
